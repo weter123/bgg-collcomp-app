@@ -1,0 +1,22 @@
+
+<h1>Collection Comparision</h1>
+<button (click)="loadMatchingList()">Press me</button>
+<h2>Board Games In Common</h2>
+<div *ngIf ="matchingList">
+  <table >
+    <tr>
+      <th>Game</th>
+      <th>{{player1}} Rating</th>
+      <th><button>by Difference</button></th>
+      <th>{{player2}} Rating</th>
+    </tr>
+    <tbody *ngFor="let item of matchingList">
+      <tr>
+        <td>{{item.key}}</td>
+        <td>{{item.value1}}</td>
+        <td></td>
+        <td>{{ item.value2}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
