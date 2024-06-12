@@ -15,12 +15,11 @@ export class CollectionComparisonComponent {
   boardGame: any;
   collection1 :any;
   collection2: any;
-  idList : any;
   gameData1: Map<string,string>;
   gameData2: Map<string,string>;
   matchingList:  Ratingpair[] = [];
-  player1: string | undefined;
-  player2: string | undefined;
+  player1: string = '';
+  player2: string ='';
 
 
 
@@ -48,10 +47,10 @@ export class CollectionComparisonComponent {
   }
 
   loadMatchingList() {
-    this.gameData1.forEach((value1, key) => {
-      if (this.gameData2.has(key)) {
-        const value2 = this.gameData2.get(key);
-        this.matchingList.push({ key, value1, value2 });
+    this.gameData1.forEach((P1Rating, GameName) => {
+      if (this.gameData2.has(GameName)) {
+        const P2Rating = this.gameData2.get(GameName);
+        this.matchingList.push({ GameName, P1Rating, P2Rating });
       }
     });
     console.log(this.matchingList)  

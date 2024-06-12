@@ -1,5 +1,5 @@
 export interface Ratingpair {
-    key: string;
-    value1: any;
-    value2: any;
+    GameName: string;
+    P1Rating: any;
+    P2Rating: any;
 }
