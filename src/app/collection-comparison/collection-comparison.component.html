@@ -1,5 +1,11 @@
 
 <h1>Collection Comparision</h1>
+<div>
+  <p>player 1</p>
+  <input id="player1" [(ngModel)]="player1" placeholder="Enter player 1 name">
+  <p>player 2</p>
+  <input id="player2" [(ngModel)]="player2" type="text">
+</div>
 <button (click)="loadMatchingList()">Press me</button>
 <h2>Board Games In Common</h2>
 <div *ngIf ="matchingList">

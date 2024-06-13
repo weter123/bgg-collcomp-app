@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Ratingpair } from '../ratingpair';
 import { BoardgameService } from '../boardgame.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-collection-comparison',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './collection-comparison.component.html',
   styleUrl: './collection-comparison.component.css'
 })
@@ -30,30 +31,36 @@ export class CollectionComparisonComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    this.player1= 'noobcitizen'
-    this.bggService.getBoardGameCollection(this.player1).subscribe(data => {
-      this.collection1 = data.items.item.filter(this.checkRating);
-      this.collection1.forEach((item: any) => this.gameData1.set(item.name._, item.stats.rating.value) )
-      console.log(this.collection1)
-    });
-
-    this.player2 = 'pasturemaster'
-    this.bggService.getBoardGameCollection(this.player2).subscribe(data => {
-      this.collection2 = data.items.item.filter(this.checkRating);;
-      this.collection2.forEach((item: any) => this.gameData2.set( item.name._, item.stats.rating.value) )
-      console.log(this.collection2)
-      
-    });
+   
   }
 
   loadMatchingList() {
-    this.gameData1.forEach((P1Rating, GameName) => {
-      if (this.gameData2.has(GameName)) {
-        const P2Rating = this.gameData2.get(GameName);
-        this.matchingList.push({ GameName, P1Rating, P2Rating });
-      }
+    console.log(this.player1)
+    if (!this.player1 || !this.player2) {
+      console.error('Both player names are required');
+      return;
+    }
+    this.bggService.getBoardGameCollection(this.player1).subscribe((data : any) => {
+      this.collection1 = data.items.item.filter(this.checkRating);
+      this.collection1.forEach((item: any) => this.gameData1.set(item.name._, item.stats.rating.value));
+      console.log(this.collection1);
+      
+      this.bggService.getBoardGameCollection(this.player2).subscribe((data : any) => {
+        this.collection2 = data.items.item.filter(this.checkRating);
+        this.collection2.forEach((item: any) => this.gameData2.set( item.name._, item.stats.rating.value) )
+        console.log(this.collection2)
+        
+      });
     });
-    console.log(this.matchingList)  
+    setTimeout( () => {
+      this.gameData1.forEach((P1Rating, GameName) => {
+        if (this.gameData2.has(GameName)) {
+          const P2Rating = this.gameData2.get(GameName);
+          this.matchingList.push({ GameName, P1Rating, P2Rating });
+        }
+      });
+      console.log(this.matchingList)  
+    },500)
     
 }
   private checkRating(item: any) : boolean{
